@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var LayoutBottomSheets: LinearLayout
     lateinit var btnBottomSheet: Button
+    lateinit var btnBottomSheetsDialog: Button
     lateinit var behavior: BottomSheetBehavior<View>
 
 
@@ -32,7 +33,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun bindView() {
         LayoutBottomSheets = findViewById(R.id.bottom_sheet)
         btnBottomSheet = findViewById(R.id.btn_bottom_sheet)
+        btnBottomSheetsDialog = findViewById(R.id.btn_bottom_sheet_dialog)
         btnBottomSheet.setOnClickListener(this)
+        btnBottomSheetsDialog.setOnClickListener(this)
 
     }
 
@@ -70,16 +73,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-
     override fun onClick(v: View?) {
-        if (v == btnBottomSheet) {
-            if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                btnBottomSheet.text = "Close sheet"
-            } else {
-                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                btnBottomSheet.text = "Expand sheet"
+
+        when (v) {
+
+            btnBottomSheet -> {
+                showBottomSheets()
+
+            }
+            btnBottomSheetsDialog -> {
+                showBottomSheetDialogFragment()
             }
         }
+
+    }
+
+    private fun showBottomSheets() {
+
+        if (behavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            btnBottomSheet.text = "Close sheet"
+        } else {
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            btnBottomSheet.text = "Expand sheet"
+        }
+    }
+
+    private fun showBottomSheetDialogFragment() {
+        val bottomSheetFragment = BottomSheetFragment.newInstace()
+        bottomSheetFragment.show(supportFragmentManager, "dialog")
+
     }
 }
